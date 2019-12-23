@@ -22,10 +22,12 @@ Queue whq;
 
 void main(int argc, char* argv[]){
 
-      Open    = (float*) malloc( (100)*sizeof(node) );
-      Close   = (float*) malloc( (100)*sizeof(node) );
+      Open    = (node*) malloc( (100)*sizeof(node) );
+      Close   = (node*) malloc( (100)*sizeof(node) );
 
-
+//while(*Open=!NULL){
 
 }
+
+
 
