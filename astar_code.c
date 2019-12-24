@@ -24,6 +24,7 @@ Queue whq;
 float mini(float a,float b){
 if(a>b){return b;}
 else{return a;}
+      /* #define min(a, b) (((a) < (b)) ? (a) : (b))*/
 }
 
 float h(node *in){
