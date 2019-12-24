@@ -20,7 +20,14 @@ unsigned long parent;
 Queue whq;
 } AStarStatus;
 
+float mini(float a,float b){
+if(a>b){return b;}
+else{return a;}
+}
+
 float h(node *in){
+float R=6371000;
+
 
 }
 
