@@ -20,6 +20,15 @@ unsigned long parent;
 Queue whq;
 } AStarStatus;
 
+float h(node *in){
+
+}
+
+float distancia(node *in){
+
+
+}
+
 void main(int argc, char* argv[]){
 
       Open    = (node*) malloc( (100)*sizeof(node) );
