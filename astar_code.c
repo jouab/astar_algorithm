@@ -26,6 +26,30 @@ if(a>b){return b;}
 else{return a;}
       /* #define min(a, b) (((a) < (b)) ? (a) : (b))*/
 }
+int binarySearch(int *in[], int firstnode, int lastnode, int x)
+{
+    if (lastnode >= firstnode) {
+        int mid = firstnode + (lastnode - firstnode ) / 2;
+
+        // If the element is present at the middle
+        // itself
+        if (in[mid] == x)
+            return mid;
+
+        // If element is smaller than mid, then
+        // it can only be present in left subarray
+        if (in[mid] > x)
+            return binarySearch(in, firstnode, mid - 1, x);
+
+        // Else the element can only be present
+        // in right subarray
+        return binarySearch(in, mid + 1, lastnode, x);
+    }
+
+    // We reach here when element is not
+    // present in array
+    return -1;
+}
 
 float h(node *in){
 float R=6371000;
