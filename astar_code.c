@@ -35,7 +35,7 @@ float diflat, diflong;
 //diflat= latitud node en el que estem - latutud node final
 //diflong= longitud node en el que estem - longitud node final
 
-a= sin(diflat/2)*sin(diflat/2)+cos(1/*latitud node que estem*/)*cos(1/*latutud node final*/)*sin(diflong/2)*sin(diflong/2);
+a= sin((in.lat-/*latutud node final*/)/2)*sin((in.lat-/*latutud node final*/)/2)+cos(1(in.lat))*cos(1/*latutud node final*/)*sin((in.lon-/*longitud node final*/)/2)*sin((in.lon-/*longitud node final*/)/2);
 c= 2*asin(min(1,sqrt(a)));
 d=R*c;
 
