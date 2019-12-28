@@ -54,25 +54,28 @@ int main(int argc,char *argv[])	{
 
 		while(i < lineas)	{
 			j = 0;
-			/*printf("Linea %i\n",i+1);*/
+			printf("Linea %i\n",i+1);
+            printf("campos por linea %d\n",campos_por_linea[i]);
+            while(j<campos_por_linea[i])	{	// Aqui es donde se procesarian los campos para transformarlos a valores enteres flotantes etc....
 
-            while(j < 10/*campos_por_linea[i]*/)	{	// Aqui es donde se procesarian los campos para transformarlos a valores enteres flotantes etc....
                 /*printf("Campo %i: %s\n",j+1,valores[i][j]);*/
-                /*nodes[i].id=atol(valores[i][1]);
+                printf("Campo %i: %s\n",j+1,valores[i][1]);
+                printf("Campo %i: %s\n",j+1,valores[i][9]);
+                printf("Campo %i: %s\n",j+1,valores[i][10]);
+
+                nodes[i].id=atol(valores[i][1]);
                 nodes[i].lat=atof(valores[i][9]);
-                nodes[i].lon=atof(valores[i][10]);*/
+                nodes[i].lon=atof(valores[i][10]);
+
                 j++;
             }
-            /*printf("ID number: %d\n",nodes[i].id);
+
+            printf("ID number: %d\n",nodes[i].id);
             printf("Ilatitud: %f\n",nodes[i].lat);
-            printf("longitud: %f\n",nodes[i].lon);*/
+            printf("longitud: %f\n",nodes[i].lon);
 			i++;
 
 		}
-		printf("Campo %i: %s\n",j+1,valores[20][1]);
-		long a;
-		a=atol(valores[20][1]);
-		printf("id: %d\n",a);
 	}
 	else	{
 		printf("Error leyendo el archivo o fin de nodos\n");
