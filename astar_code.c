@@ -2,65 +2,26 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-typedef struct {
-unsigned long id;          // Node identification
-char *name;
-double lat, lon;           // Node position
-unsigned short nsucc;      // Number of node successors; i. e. length of successors
-unsigned long *successors;
-}
-node;
+#include "library.h"
 
-node *Open, *Close;
-
-typedef char Queue;
-enum whichQueue {NONE, OPEN, CLOSED};
-
-typedef struct {double g, h;
-unsigned long parent;
-Queue whq;
-} AStarStatus;
+node *Vector, *Open, *Close;
 
 float mini(float a,float b){
 if(a>b){return b;}
 else{return a;}
       /* #define min(a, b) (((a) < (b)) ? (a) : (b))*/
 }
-int binarySearch(int *in[], int firstnode, int lastnode, int x)
-{
-    if (lastnode >= firstnode) {
-        int mid = firstnode + (lastnode - firstnode ) / 2;
+/*Per al cas de catalunya*/
+//int Index_ultim=binarySearch(Vector.id, 8670491, 842755875, 429854583);
 
-        // If the element is present at the middle
-        // itself
-        if (in[mid] == x)
-            return mid;
-
-        // If element is smaller than mid, then
-        // it can only be present in left subarray
-        if (in[mid] > x)
-            return binarySearch(in, firstnode, mid - 1, x);
-
-        // Else the element can only be present
-        // in right subarray
-        return binarySearch(in, mid + 1, lastnode, x);
-    }
-
-    // We reach here when element is not
-    // present in array
-    return -1;
-}
-
-float h(node *in){
-float R=6371000;
-
-float a, c, d;
+float h(node_map nod, int i){
+float R=6371000, a, c, d;
 float diflat, diflong;
-//diflat= latitud node en el que estem - latutud node final
-//diflong= longitud node en el que estem - longitud node final
+diflat= nod.lat - nod.lat;
+diflong= nod.lon - nod.lon;
 
-a= sin((in.lat-/*latutud node final*/)/2)*sin((in.lat-/*latutud node final*/)/2)+cos(1(in.lat))*cos(1/*latutud node final*/)*sin((in.lon-/*longitud node final*/)/2)*sin((in.lon-/*longitud node final*/)/2);
-c= 2*asin(min(1,sqrt(a)));
+a= sin((diflat)/2)*sin((diflat)/2)+cos((nod.lat))*cos(nod.lat)*sin((diflong)/2)*sin((diflong)/2);
+c= 2*asin(mini(1,sqrt(a)));
 d=R*c;
 
 return d;
@@ -73,12 +34,25 @@ float distancia(node *in){
 
 void main(int argc, char* argv[]){
 
+map OPENlist;
+InicialitzaLlista (&OPENlist);
+
       Open    = (node*) malloc( (100)*sizeof(node) );
       Close   = (node*) malloc( (100)*sizeof(node) );
 
-//while(*Open=!NULL){
+InsereixNodeInicial(&OPENlist);
+node_map *primer_node;
+primer_node =InicideLlista(OPENlist);
+(primer_node->f)=1/*funcio que calcula f per al node inicial*/ ,
+(primer_node->id)=771979683,
+(primer_node->lat)=1/*punter a la latitud del node inicial*/,
+(primer_node->lon)=1/*punter a la longitud edl node inicial*/,
+(primer_node->name)=1/*punter que va al nom del node inicial*/;
 
+
+while(EsPlena(OPENlist)){
+printf("bucle");
 }
 
 
-
+}
