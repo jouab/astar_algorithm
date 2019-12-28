@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 typedef struct {
 unsigned long id;          // Node identification
@@ -11,7 +12,7 @@ unsigned long *successors;
 }node;
 
 typedef struct NODE
-{ char id[11];
+{ unsigned long id;
 double f;
 char *name;
 double lat, lon;
@@ -108,6 +109,8 @@ return NULL;
 
 //Esta la llista buida?? pg 42
 bool EsBuida (map llista) {return (llista.start == NULL);}
+//Hi ha algo a la llista??
+bool EsPlena (map llista) {return (llista.start != NULL);}
 
 //Quina es la largada?? pg 42
 unsigned Llargada (map llista) {return (llista.nnodes);}
@@ -141,7 +144,7 @@ free (node_a_borrar);
 llista->nnodes--;
 }
 
-//Incertar nodes
+//Incertar nodes pg 66 per utilitzacio
 
 bool push (map * llista) { node_map *aux;
 if ((aux = (node_map *) malloc (sizeof (node_map))) == NULL) return false;
@@ -170,7 +173,7 @@ return true;
 
 
 //Funcio de cerca binaria, utilitzacio en la pg 82.
-node_map * CercaBinaria_cognom (const char *id,
+node_map * CercaBinaria_id (const char *id,
 map llista) {
 register unsigned start = 0UL, afterend = llista.nnodes, middle_ant = 0U, middle;
 register node_map *middle_id = llista.start;
