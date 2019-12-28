@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "library.h"
+#include "lib_Astar.h"
 
 node *Vector, *Open, *Close;
 
