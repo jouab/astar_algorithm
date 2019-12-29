@@ -40,8 +40,9 @@ return f;
 
 void main(int argc, char* argv[]){
 
-map OPENlist;
+map OPENlist, CLOSEDlist;
 InicialitzaLlista (&OPENlist);
+InicialitzaLlista (&CLOSEDlist);
 
       Open    = (node*) malloc( (100)*sizeof(node) );
       Close   = (node*) malloc( (100)*sizeof(node) );
@@ -54,27 +55,65 @@ node_map *primer_node;
 primer_node =InicideLlista(OPENlist);
 (primer_node->f)=h(Vector,Index_primer)/*funcio que calcula f per al node inicial*/ ,
 (primer_node->id)=771979683;
-//(primer_node->lat)=1/*punter a la latitud del node inicial*/,
-//(primer_node->lon)=1/*punter a la longitud edl node inicial*/,
-//(primer_node->name)=1/*punter que va al nom del node inicial*/;
+(primer_node->parentid)=NULL;
+
+node_map *node_suc, *node_cu;
 
 while(EsPlena(OPENlist)){
-node_map *node_cu;
+
 node_cu = InicideLlista(OPENlist);
 unsigned long index_curr;
 index_curr = binarySearch(Vector,8670491,842755875,(node_cu->id));
-if((node_cu->id) == 429854583){
+    if((node_cu->id) == 429854583){
     printf(("s'ha arribat al desti!!"));
     break;
+    }
+node_map nod;
+//for (nod=OPENlist.start; nod<OPENlist.end; nod=nod->seg){
+
+unsigned long index_succ=binarySearch(Vector,8670491,842755875,(node_suc->id));
+double successor_current_cost=h(Vector,index_succ)+g(Vector,index_curr,index_succ);
+    if(CercaSequencial_id(node_suc->id, OPENlist)!=NULL){
+        if(g(Vector,index_curr,index_succ)<=successor_current_cost){
+            continue;
+             }
+        }
+    else if(CercaSequencial_id(node_suc->id, CLOSEDlist)!=NULL){
+        if(g(Vector,index_curr,index_succ)<=successor_current_cost){
+            continue;
+             }
+        }
+    else{//Add node to the open list
+            InsereixNodeFinal(&OPENlist);
+            node_suc =FinaldeLlista(OPENlist);
+            (node_suc->f)=successor_current_cost/*funcio que calcula f per al node inicial*/ ,
+            (node_suc->id)=index_succ;
+            (node_suc->parentid)=(node_cu->id);
+        }
+    //}
+    //Add current node to the closed list,
+    if(EsBuida(CLOSEDlist)){
+        InsereixNodeInicial(&CLOSEDlist);
+        node_map *node_cuclos = InicideLlista(CLOSEDlist);
+        (node_cuclos->f)=(node_cu->f)/*funcio que calcula f per al node inicial*/ ,
+        (node_cuclos->id)=(node_cu->id);
+        (node_cuclos->parentid)=(node_cu->parentid);
+        }
+    else{InsereixNodeFinal(&CLOSEDlist);
+        node_map *node_cuclos = FinaldeLlista(CLOSEDlist);
+        (node_cuclos->f)=(node_cu->f)/*funcio que calcula f per al node inicial*/ ,
+        (node_cuclos->id)=(node_cu->id);
+        (node_cuclos->parentid)=(node_cu->parentid);
+    }
+    // delite the node from the open list
+    BorraNode(node_cu, &OPENlist);
+    // and order the open list.
+    int err=OrdenaUsantIndex(&OPENlist, Comparaf);
+    if(err){printf("\nError en ordenar la llista");}
 }
-//for(i=0;i<Vector.nsucc;i++){
-//node_map node_suc;
-//node
-//
-//}
 
-
+if((node_suc->id) != 429854583){
+    printf("\nError, La llista OPEN esta buida");
+}
 }
 
-
-}
