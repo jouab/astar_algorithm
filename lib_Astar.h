@@ -13,9 +13,10 @@ unsigned long *successors;
 
 typedef struct NODE
 { unsigned long id;
-double f;
-char *name;
-double lat, lon;
+unsigned long f;
+unsigned long parentid;
+//char *name;
+//double lat, lon;
 struct NODE *prev, *seg;
 } node_map;
 
@@ -97,15 +98,15 @@ if (N >= llista.nnodes) return NULL;
 return DeSaltaA (llista.nnodes-1, llista.end, N);}
 return DeSaltaA (0U, llista.start, N);}
 
-//Cerca sequencial de un parametrede de un id
-node_map * CercaSequencial_id (const char *id,
+//Cerca sequencial de un parametrede de un id pg
+node_map * CercaSequencial_id (unsigned long ide,
 map llista) {
-register node_map *nod; unsigned idlen = strlen(id);
+register node_map *nod;
 for (nod=llista.start; nod; nod=nod->seg)
-if (strncmp(id, nod->id, idlen) == 0)
-return nod;
+if ((nod->id) == ide) return nod;
 return NULL;
 }
+
 
 //Esta la llista buida?? pg 42
 bool EsBuida (map llista) {return (llista.start == NULL);}
@@ -173,29 +174,34 @@ return true;
 
 
 //Funcio de cerca binaria, utilitzacio en la pg 82.
-node_map * CercaBinaria_id (const char *id,
-map llista) {
-register unsigned start = 0UL, afterend = llista.nnodes, middle_ant = 0U, middle;
-register node_map *middle_id = llista.start;
-register unsigned short idlen = strlen (id);
-register int rescom;
-while (afterend > start) {
-middle = start + ((afterend - start - 1) >> 1);
-middle_id = DeSaltaA (middle_ant, middle_id, middle);
-middle_ant = middle;
-rescom = strncmp (id, middle_id->id, idlen);
-if (rescom == 0) return middle_id;
-else if (rescom > 0) start = middle + 1;
-else afterend = middle;
-}
-return NULL;
-}
+//node_map * CercaBinaria_id (const char *id,
+//map llista) {
+//register unsigned start = 0UL, afterend = llista.nnodes, middle_ant = 0U, middle;
+//register node_map *middle_id = llista.start;
+//register unsigned short idlen = strlen (id);
+//register int rescom;
+//while (afterend > start) {
+//middle = start + ((afterend - start - 1) >> 1);
+//middle_id = DeSaltaA (middle_ant, middle_id, middle);
+//middle_ant = middle;
+//rescom = strncmp (id, middle_id->id, idlen);
+//if (rescom == 0) return middle_id;
+//else if (rescom > 0) start = middle + 1;
+//else afterend = middle;
+//}
+//return NULL;
+//}
 
 //Funcio que compara entre dos id de dos nodes, si el id de a>b,return<0, si id a<b, return>0, si a=b return=0.
 //Potser tindriem que canviar id al valor de la funcio f per a ordenarlos amb aquest altre criteri.
 int ComparaID (const void *a, const void *b) {
 return -strcmp ( (*((node_map **) a))->id,
 (*((node_map **) b))->id );
+}
+
+int Comparaf (const void *a, const void *b) {
+return -strcmp ( (*((node_map **) a))->f,
+(*((node_map **) b))->f );
 }
 
 //Funcio crear index: pg 91 Tipus Abstractes de Dades Lineals
@@ -224,4 +230,29 @@ ptr_list[i-1]->seg = ptr_list[i]; ptr_list[i]->prev = ptr_list[i-1];
 }
 free(ptr_list);
 return 0;
+}
+
+int binarySearch(node arr[], unsigned long l, unsigned long r, unsigned long x)
+{
+    if (r >= l) {
+        unsigned long mid = l + (r - l) / 2;
+
+        // If the element is present at the middle
+        // itself
+        if (arr[mid].id == x)
+            return mid;
+
+        // If element is smaller than mid, then
+        // it can only be present in left subarray
+        if (arr[mid].id> x)
+            return binarySearch(arr, l, mid - 1, x);
+
+        // Else the element can only be present
+        // in right subarray
+        return binarySearch(arr, mid + 1, r, x);
+    }
+
+    // We reach here when element is not
+    // present in array
+    return -1;
 }
