@@ -13,10 +13,8 @@ unsigned long *successors;
 
 typedef struct NODE
 { unsigned long id;
-unsigned long f;
+unsigned long f, g, h;
 unsigned long parentid;
-//char *name;
-//double lat, lon;
 struct NODE *prev, *seg;
 } node_map;
 
