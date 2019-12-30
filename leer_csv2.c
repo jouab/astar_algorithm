@@ -1,5 +1,4 @@
 
-
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -17,6 +16,7 @@ int longitud = 0;
 int i,j,k;
 unsigned long id;
 unsigned long posicio;
+int nsucc_previ;
 
 int main(int argc,char *argv[])	{
 	FILE *archivo = NULL;
@@ -55,7 +55,7 @@ int main(int argc,char *argv[])	{
         int numero_nodes=0;
 		while(i < lineas)	{
 			j = 0;
-			/*printf("Linea %i\n",i+1);*/
+            printf("Linea %i\n",i+1);
 			if (strcmp("node",valores[i][0])==0){
                 while(j<campos_por_linea[i])	{	// Aqui es donde se procesarian los campos para transformarlos a valores enteres flotantes etc....
                     nodes[i].id=atol(valores[i][1]);
@@ -67,23 +67,47 @@ int main(int argc,char *argv[])	{
 			}
             else if (strcmp("way",valores[i][0])==0){
                     j=9;
-                    printf("entre als way\n");
+                    /*printf("entre als way\n");*/
                 while(j<campos_por_linea[i])	{
-                    id=atol(valores[i][j]);
-                    printf("id: %d\n campos por linea %d\n linea: %d\n id dels ways: %d\n",id,campos_por_linea[i],i,valores[i][j]);
-                    posicio=binarySearch(nodes,8670491,842755875, id);
 
-                        nodes[posicio].nsucc=nodes[posicio].nsucc+1;
-                        printf("nsucc: %d\n",nodes[posicio].nsucc);
-                        nodes[posicio].successors=realloc(nodes[posicio].successors,sizeof(unsigned long *)*nodes[posicio].nsucc);
-                    }
+                    id=atol(valores[i][j]);
+                    if (posicio=binarySearch(nodes,0,3472619, atol(valores[i][j]))!= -1){
+                        posicio=binarySearch(nodes,0,3472619, atol(valores[i][j]));
+                        printf("id: %d\n campos por linea %d\n linea: %d\n id dels ways: %s\n",id,campos_por_linea[i],i,valores[i][j]);
+                        printf("i: %d \n", i);
+                        printf("posicio cerca: %d\n", binarySearch(nodes,0,3472619,atol(valores[i][j])));
+                        printf("posicio guardada: %d\n", posicio);
+                            nsucc_previ=nodes[posicio].nsucc;
+                            nodes[posicio].nsucc=nodes[posicio].nsucc+campos_por_linea[i]-8-1;
+                           /* printf("nombre de nodes succesors: %d\n",nodes[posicio].nsucc);*/
+                        printf("nsucc: %d\n \n",nodes[posicio].nsucc);
+                            nodes[posicio].successors=realloc(nodes[posicio].successors,sizeof(unsigned long *)*nodes[posicio].nsucc);
+                        printf("realloc\n");
 
                         for (k=0;k<nodes[posicio].nsucc;k++){
-                            nodes[posicio].successors[k];
 
+                                if (atol(valores[i][k+9]) != nodes[posicio].id && binarySearch(nodes,0,3472619,atol(valores[i][k+9])) !=-1){
+                                    /*printf("posicio dins del for: %d\n", posicio);*/
+                                    printf("lina: %d\n valor buscat: %d\n",i,atol(valores[i][k+9]));
+                                    printf("valor buscat string: %s\n",valores[i][k+9]);
+                                    printf("contador i: %d\n", i);
+                                    printf("contador j: %d\n", j);
+                                    printf("contador k: %d\n", k);
+                                    printf("sucesors previs: %d\n",nsucc_previ);
+                                    printf("busqueda de la posicio del sucesor: %d\n",binarySearch(nodes,0,3472619,atol(valores[i][k+9])));
+                                    printf("psicio propia: %d\n\n",posicio);
+                                    nodes[posicio].successors[k]=binarySearch(nodes,0,3472619,atol(valores[i][k+9]));
 
+                                   /*printf("id: succesor desres de lassginacio: %d\n \n \n",nodes[posicio].successors[k]);*/
+                                }
+                        }
+                        for (k=0;k<nodes[posicio].nsucc;k++){
+                                printf("id: succesor desres de lassginacio: %d\n \n \n",nodes[posicio].successors[k]);
+                        }
+                    }
+                    printf("seguent nodes\n");
                     j++;
-                }
+                }printf("seguent linea\n");
             }
 			i++;
 
@@ -103,7 +127,7 @@ int main(int argc,char *argv[])	{
 		printf("5 %f\n",nodes[605].lat);
 		printf("6 %f\n",nodes[606].lat);
 		printf("7 %f\n",nodes[607].lat);
-
+        printf("NODES CALCULATS CORRECTAMENT");
 	}
 	else	{
 		printf("Error leyendo el archivo o fin de nodos\n");
